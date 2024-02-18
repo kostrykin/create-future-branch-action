@@ -20,10 +20,6 @@ runs:
       shell: bash
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
-    
-    - name: Debug 1
-      shell: bash
-      run: echo "$GITHUB_OUTPUT"
 
     - name: Create and initialize future branch
       id: create_branch
@@ -31,11 +27,8 @@ runs:
         PREFIX: ${{ inputs.prefix }}
         INIT: ${{ inputs.init }}
       shell: bash
-      run: echo "branch=$(create-future-branch.py)" >> "$GITHUB_OUTPUT"
-    
-    - name: Debug 2
-      shell: bash
-      run: echo "${{ steps.create_branch.outputs.branch }}"
+      run: create-future-branch.py
+      #run: echo "branch=$(create-future-branch.py)" >> "$GITHUB_OUTPUT"
 
     - name: Commit and push
       uses: stefanzweifel/git-auto-commit-action@v5
