@@ -26,6 +26,7 @@ runs:
       env:
         PREFIX: ${{ inputs.prefix }}
         INIT: ${{ inputs.init }}
+      shell: bash
       run: echo "branch=$(python create-future-branch.py)" >> $GITHUB_OUTPUT
 
     - name: Commit and push
