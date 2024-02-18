@@ -1,16 +1,7 @@
 name: Create example future branch
 
 on:
-  push:
-    paths:
-      - 'example/**'
-      - '.github/workflows/example.yml'
-      - 'action.yml'
-      - 'create-future-branch.py'
-  pull_request:
-    branches:
-      - 'master'
-      - 'future/**'
+  workflow_dispatch:
 
 jobs:
 
