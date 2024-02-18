@@ -3,6 +3,7 @@ name: Create example future branch
 on:
   push:
     paths:
+      - 'example/**'
       - '.github/workflows/example.yml'
       - 'action.yml'
       - 'create-future-branch.py'
