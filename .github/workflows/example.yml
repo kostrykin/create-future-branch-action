@@ -25,3 +25,5 @@ jobs:
         uses: actions/checkout@v4
 
       - uses: kostrykin/create-future-branch-action@master
+        with:
+          init: python example/init-future-branch.py
