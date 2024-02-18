@@ -27,7 +27,7 @@ runs:
         PREFIX: ${{ inputs.prefix }}
         INIT: ${{ inputs.init }}
       shell: bash
-      run: echo "branch=$(create-future-branch.py)" >> $GITHUB_OUTPUT
+      run: echo "branch=\"$(create-future-branch.py)\"" >> $GITHUB_OUTPUT
 
     - name: Commit and push
       uses: stefanzweifel/git-auto-commit-action@v5
