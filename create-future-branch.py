@@ -13,7 +13,7 @@ year   = today.year % 2000
 branch = f'future/{prefix}{year + 1}'
 
 os.system(f'git checkout -b {branch}')
-#if len(init) > 0:
-#    os.system(f'{init} "{branch}"')
+if len(init) > 0:
+    os.system(f'{init} "{branch}"')
 
 print(branch)
