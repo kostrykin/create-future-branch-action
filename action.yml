@@ -1,0 +1,38 @@
+name: 'Create future branch'
+description: 'Create future/** branch'
+inputs:
+
+  prefix:
+    description: The prefix of the future branch
+    required: true
+    default: ws
+
+  init:
+    description: Script for initialization of the future branch
+
+runs:
+
+  using: "composite"
+  steps:
+
+    - name: Set GitHub Path
+      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+      shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+
+    - name: Create and initialize future branch
+      id: create_branch
+      env:
+        PREFIX: ${{ inputs.prefix }}
+        INIT: ${{ inputs.init }}
+      run: echo "branch=$(python create-future-branch.py)" >> $GITHUB_OUTPUT
+
+    - name: Commit and push
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        branch: ${{ steps.create_branch.outputs.branch }}
+        commit_message: 'Initialize future branch'
+        create_branch: true
+        commit_options: '--allow-empty'
+        skip_dirty_check: true
