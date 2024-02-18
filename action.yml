@@ -10,6 +10,9 @@ inputs:
   init:
     description: Script for initialization of the future branch
 
+  push_options:
+    description: Options to be used for pushing (e.g., "--force")
+
 outputs:
 
   branch:
@@ -43,3 +46,4 @@ runs:
         create_branch: true
         commit_options: '--allow-empty'
         skip_dirty_check: true
+        push_options: ${{ inputs.push_options }}
