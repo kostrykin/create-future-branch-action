@@ -10,6 +10,12 @@ inputs:
   init:
     description: Script for initialization of the future branch
 
+outputs:
+
+  branch:
+    description: The name of the future branch
+    value: ${{ steps.create_branch.outputs.branch }}
+
 runs:
 
   using: "composite"
@@ -27,8 +33,7 @@ runs:
         PREFIX: ${{ inputs.prefix }}
         INIT: ${{ inputs.init }}
       shell: bash
-      run: create-future-branch.py
-      #run: echo "branch=$(create-future-branch.py)" >> "$GITHUB_OUTPUT"
+      run: echo "branch=$(create-future-branch.py)" >> "$GITHUB_OUTPUT"
 
     - name: Commit and push
       uses: stefanzweifel/git-auto-commit-action@v5
