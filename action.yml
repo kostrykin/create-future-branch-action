@@ -43,4 +43,3 @@ runs:
         create_branch: true
         commit_options: '--allow-empty'
         skip_dirty_check: true
-        push_options: '--force'
