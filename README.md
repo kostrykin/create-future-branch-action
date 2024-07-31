@@ -1,9 +1,10 @@
 # *[build-latex-document-action](https://github.com/kostrykin/build-latex-document-action)*
 
-> [!CAUTION]
-> Future branch initialization is currently not working with protected branches ([more info](https://github.com/orgs/community/discussions/13836)).
+> [!IMPORTANT]
+> If future branches are protected, the *"Do not require status checks on creation"* option described here option needs to be set:
+> https://github.blog/changelog/2024-07-31-repository-updates-july-31st-2024/#avoid-required-status-checks-and-required-workflows-when-creating-branches
 
-For examples see:
+**For examples see:**
 - <https://github.com/BMCV/mobi-fs5-python-assignments/blob/current/.github/workflows/create_future_branch.yml>
 - <https://github.com/BMCV/mobi-fs3-python-assignments/blob/current/.github/workflows/create_future_branch.yml>
 - <https://github.com/BMCV/mobi-fs3-python-lecture/blob/current/.github/workflows/create_future_branch.yml>
