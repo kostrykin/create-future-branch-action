@@ -3,47 +3,63 @@ description: 'Create future/** branch'
 inputs:
 
   prefix:
-    description: The prefix of the future branch
+    description: The prefix of the future branch.
     required: true
     default: ws
 
   init:
-    description: Script for initialization of the future branch
+    description: Script for initialization of the future branch.
+    required: true
 
-  push_options:
-    description: Options to be used for pushing (e.g., "--force")
+  labels:
+    type: string
+    required: false
+    default: ''
+    description: A comma or newline-separated list of labels.
 
 outputs:
 
   branch:
-    description: The name of the future branch
-    value: ${{ steps.create_branch.outputs.branch }}
+    description: The full name of the future branch.
+    value: ${{ steps.meta.outputs.branch }}
+
+  branch-name:
+    description: The name of the future branch (without the `future/` part).
+    value: ${{ steps.meta.outputs.branch-name }}
+
+  pull-request-number:
+    description: The pull request number.
+    value: ${{ steps.create-pull-request.outputs.pull-request-number }}
+
+  pull-request-url:
+    description: The URL of the pull request.
+    value: ${{ steps.create-pull-request.outputs.pull-request-url }}
 
 runs:
 
   using: "composite"
   steps:
 
-    - name: Set GitHub Path
-      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+    - run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
       shell: bash
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
 
-    - name: Create and initialize future branch
-      id: create_branch
-      env:
-        PREFIX: ${{ inputs.prefix }}
-        INIT: ${{ inputs.init }}
+    - run: meta.py --prefix "${{ inputs.prefix }}" >> "$GITHUB_OUTPUT"
+      id: meta
       shell: bash
-      run: echo "branch=$(create-future-branch.py)" >> "$GITHUB_OUTPUT"
 
-    - name: Commit and push
-      uses: stefanzweifel/git-auto-commit-action@v5
+    - name: Initialize future branch
+      if: ${{ inputs.init != '' }}
+      run: ${{ inputs.init }}
+      shell: bash
+  
+    - name: Create pull request
+      uses: peter-evans/create-pull-request@v7
+      id: create-pull-request
       with:
-        branch: ${{ steps.create_branch.outputs.branch }}
-        commit_message: 'Initialize future branch'
-        create_branch: true
-        commit_options: '--allow-empty'
-        skip_dirty_check: true
-        push_options: ${{ inputs.push_options }}
+        title: Merge future branch ${{ steps.meta.outputs.branch-name }}
+        labels: ${{ inputs.labels }}
+        body: ''
+        branch: ${{ steps.meta.outputs.branch }}
+        commit-message: Initialize future branch

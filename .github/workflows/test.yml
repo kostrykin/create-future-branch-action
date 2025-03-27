@@ -1,0 +1,41 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  pull_requests:
+    branches: ['master']
+    paths:
+      - '.github/workflows/test.yml'
+      - 'action.yml'
+      - '**/*.py'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+
+  test_example:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Initialize
+        uses: actions/checkout@v4
+
+      - uses: ./
+        id: create-future-branch
+        with:
+          init: python example/init-future-branch.py
+          labels: create-future-branch-test
+
+      - uses: peter-evans/close-pull@v3
+        with:
+          pull-request-number: ${{ steps.create-future-branch.outputs.pull-request-number }}
+          comment: Closing create-future-branch-test pull request
+          delete-branch: true
+
+      - run: echo "<${{ steps.create-future-branch.outputs.pull-request-url }}>" >> $GITHUB_STEP_SUMMARY
