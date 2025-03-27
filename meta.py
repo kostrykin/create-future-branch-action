@@ -7,7 +7,7 @@ from datetime import date
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--prefix', type='str', default='')
+parser.add_argument('--prefix', type=str, default='')
 args = parser.parse_args()
 
 
