@@ -59,7 +59,7 @@ runs:
       uses: peter-evans/create-pull-request@v7
       id: create-pull-request
       with:
-        title: Merge future branch ${{ steps.meta.outputs.branch-name }}
+        title: Merge future branch ${{ steps.meta.outputs.branch-description }}
         labels: ${{ inputs.labels }}
         body: ''
         branch: ${{ steps.meta.outputs.branch }}
