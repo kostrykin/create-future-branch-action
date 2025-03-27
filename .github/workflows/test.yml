@@ -8,6 +8,11 @@ on:
       - '.github/workflows/test.yml'
       - 'action.yml'
       - '**/*.py'
+  push:
+    paths:
+      - '.github/workflows/test.yml'
+      - 'action.yml'
+      - '**/*.py'
 
 permissions:
   contents: write
