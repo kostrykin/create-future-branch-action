@@ -18,12 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - run: echo "${{ github.ref }}"
+      - run: echo "${{ github.event.repository.default_branch }}"
 
       - uses: actions/checkout@v4
-        #if: ${{ github.event_name == 'pull_request' }}
-        with:
-          ref: ${{ github.ref }}
 
       - uses: ./
         id: create-future-branch
