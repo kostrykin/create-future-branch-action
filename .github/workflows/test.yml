@@ -18,8 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - run: echo "${{ github.event.repository.default_branch }}"
-
       - uses: actions/checkout@v4
 
       - uses: ./
@@ -27,6 +25,7 @@ jobs:
         with:
           init: python example/init-future-branch.py
           labels: create-future-branch-test
+          base: ${{ github.event.repository.default_branch }}
 
       - uses: peter-evans/close-pull@v3
         with:

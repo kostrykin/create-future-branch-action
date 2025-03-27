@@ -17,6 +17,12 @@ inputs:
     default: ''
     description: A comma or newline-separated list of labels.
 
+  base:
+    type: string
+    required: false
+    default: ''
+    description: The name of the base branch of the pull request.
+
 outputs:
 
   branch:
@@ -63,3 +69,4 @@ runs:
         body: ''
         branch: ${{ steps.meta.outputs.branch }}
         commit-message: Initialize future branch
+        base: ${{ inputs.base }}
