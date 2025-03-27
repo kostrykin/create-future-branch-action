@@ -1,4 +1,4 @@
-# *[build-latex-document-action](https://github.com/kostrykin/build-latex-document-action)*
+# *[create-future-branch-action](create-future-branch-action)*
 
 > [!IMPORTANT]
 > If future branches are protected, the *"Do not require status checks on creation"* option described here option needs to be set:
