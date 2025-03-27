@@ -50,7 +50,7 @@ runs:
   using: "composite"
   steps:
 
-    - uses: kostrykin/current-semester@v0.1
+    - uses: kostrykin/current-semester-action@v0.1
       id: semester
       with:
         which: next
