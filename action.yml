@@ -6,11 +6,20 @@ inputs:
     description: Script for initialization of the future branch.
     required: true
 
+  floor:
+    description: Floor the semester to winter semester (`ws`) or summer semester (`ss`).
+    required: false
+    default: ''
+
   labels:
     type: string
     required: false
     default: ''
     description: A comma or newline-separated list of labels.
+
+  semester_label_color:
+    description: The color of the semester label.
+    default: FFFFFF
 
   base:
     type: string
@@ -22,11 +31,11 @@ outputs:
 
   branch:
     description: The full name of the future branch.
-    value: ${{ steps.meta.outputs.branch }}
+    value: ${{ steps.meta.outputs.name }}
 
   branch-name:
     description: The name of the future branch (without the `future/` part).
-    value: ${{ steps.meta.outputs.branch-name }}
+    value: ${{ steps.semester.outputs.name }}
 
   pull-request-number:
     description: The pull request number.
@@ -41,12 +50,12 @@ runs:
   using: "composite"
   steps:
 
-    - run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
-      shell: bash
-      env:
-        GITHUB_ACTION_PATH: ${{ github.action_path }}
+    - uses: kostrykin/current-semester@v0.1
+      id: semester
+      with:
+        which: next
 
-    - run: meta.py >> "$GITHUB_OUTPUT"
+    - run: echo "branch=future/${{ steps.semester.outputs.name }}" >> "$GITHUB_OUTPUT"
       id: meta
       shell: bash
 
@@ -54,13 +63,25 @@ runs:
       if: ${{ inputs.init != '' }}
       run: ${{ inputs.init }} "${{ steps.meta.outputs.branch }}"
       shell: bash
+
+    - name: Create label
+      continue-on-error: true
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.issues.createLabel({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            name: '${{ steps.semester.outputs.description }}',
+            color: '${{ inputs.semester_label_color }}'
+          });
   
     - name: Create pull request
       uses: peter-evans/create-pull-request@v7
       id: create-pull-request
       with:
-        title: Merge future branch ${{ steps.meta.outputs.branch-description }}
-        labels: ${{ inputs.labels }}
+        title: Merge future branch ${{ steps.semester.outputs.description }}
+        labels: ${{ steps.semester.outputs.description }}, ${{ inputs.labels }}
         body: ''
         branch: ${{ steps.meta.outputs.branch }}
         commit-message: Initialize future branch
