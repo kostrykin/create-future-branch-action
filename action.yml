@@ -51,7 +51,7 @@ runs:
 
     - name: Initialize future branch
       if: ${{ inputs.init != '' }}
-      run: ${{ inputs.init }}
+      run: ${{ inputs.init }} "${{ steps.meta.outputs.branch }}"
       shell: bash
   
     - name: Create pull request

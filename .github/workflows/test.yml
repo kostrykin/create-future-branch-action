@@ -14,13 +14,8 @@ permissions:
   pull-requests: write
 
 jobs:
-
-  test_example:
+  test:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
-
     steps:
 
       - name: Initialize
