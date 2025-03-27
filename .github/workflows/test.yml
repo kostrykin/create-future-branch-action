@@ -1,0 +1,39 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: ['master']
+    paths:
+      - '.github/workflows/test.yml'
+      - 'action.yml'
+      - '**/*.py'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - run: python -m unittest tests/test_*.py
+        shell: bash
+
+      - uses: ./
+        id: create-future-branch
+        with:
+          init: python tests/init-future-branch.py
+          labels: create-future-branch-test
+          base: ${{ github.event.repository.default_branch }}
+
+      - uses: peter-evans/close-pull@v3
+        with:
+          pull-request-number: ${{ steps.create-future-branch.outputs.pull-request-number }}
+          comment: Closing create-future-branch-test pull request
+          delete-branch: true
+
+      - run: echo "<${{ steps.create-future-branch.outputs.pull-request-url }}>" >> $GITHUB_STEP_SUMMARY
