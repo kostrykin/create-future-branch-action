@@ -20,10 +20,13 @@ jobs:
 
       - uses: actions/checkout@v4
 
+      - run: python -m unittest tests/test_*.py
+        shell: bash
+
       - uses: ./
         id: create-future-branch
         with:
-          init: python example/init-future-branch.py
+          init: python tests/init-future-branch.py
           labels: create-future-branch-test
           base: ${{ github.event.repository.default_branch }}
 

@@ -2,11 +2,6 @@ name: 'Create future branch'
 description: 'Create future/** branch'
 inputs:
 
-  prefix:
-    description: The prefix of the future branch.
-    required: true
-    default: ws
-
   init:
     description: Script for initialization of the future branch.
     required: true
@@ -51,7 +46,7 @@ runs:
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
 
-    - run: meta.py --prefix "${{ inputs.prefix }}" >> "$GITHUB_OUTPUT"
+    - run: meta.py >> "$GITHUB_OUTPUT"
       id: meta
       shell: bash
 
