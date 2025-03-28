@@ -1,3 +1,5 @@
+**Deprecation:** This action is now replaced by a combination of the [https://github.com/kostrykin/current-semester-action](kostrykin/current-semester-action) and the [https://github.com/kostrykin/autobump-action](kostrykin/autobump-action). See <https://github.com/BMCV/github-workflows/blob/main/.github/workflows/create-future-branch.yml> for how it works.
+
 # *[create-future-branch-action](create-future-branch-action)*
 
 > [!IMPORTANT]
